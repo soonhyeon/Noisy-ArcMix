@@ -5,3 +5,4 @@ KAIST
 
 # STSASgram-MFN Architecture
 
+![struction](./STSASgram-MFN_Architecture.png)
