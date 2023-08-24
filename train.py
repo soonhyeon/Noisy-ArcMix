@@ -1,20 +1,11 @@
+import random 
 import torch 
+import numpy as np
 from dataloader import train_dataset, test_dataset
 from torch.utils.data import DataLoader
 from utils import dataset_split
 from trainer import Trainer
-import random 
-import numpy as np
 import yaml
-
-seed = 2023
-random.seed(seed)
-np.random.seed(seed)
-torch.manual_seed(seed)
-torch.cuda.manual_seed_all(seed)
-torch.backends.cudnn.deterministic = True
-torch.backends.cudnn.benchmark = False
-torch.set_num_threads(4)
 
 
 def main():
@@ -38,14 +29,22 @@ def main():
     train_dataloader = DataLoader(train_ds, batch_size=cfg['batch_size'], shuffle=True)
     valid_dataloader = DataLoader(valid_ds, batch_size=cfg['batch_size'])
     
-    trainer = Trainer(device=device, name_list=name_list, alpha=cfg['alpha'], mode=cfg['mode'],
-                      epochs=cfg['epoch'], class_num=cfg['num_classes'], m=cfg['m'], 
-                      lr=cfg['lr'], hidden_dim=cfg['hidden_dim'], 
-                      n_layers=cfg['n_layers'], n_heads=cfg['n_heads'], 
-                      pf_dim=cfg['pf_dim'], dropout_ratio=cfg['dropout_ratio'])
+    trainer = Trainer(device=device, alpha=cfg['alpha'], mode=cfg['mode'],
+                      epochs=cfg['epoch'], class_num=cfg['num_classes'],
+                      m=cfg['m'], lr=cfg['lr'])
     
     trainer.train(train_dataloader, valid_dataloader, cfg['save_path'])
-    
+
+def random_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
 
 if __name__ == '__main__':
+    random_seed(seed=2023)
+    torch.set_num_threads(4)
     main()

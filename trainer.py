@@ -1,18 +1,17 @@
 import torch
-from model.net import STSASgramMFN
+from model.net import TASTgramMFN
 from tqdm import tqdm
-from sklearn import metrics
 from utils import get_accuracy, mixup_data, arcmix_criterion, noisy_arcmix_criterion
 from losses import ASDLoss, ArcMarginProduct
+from torch.cuda.amp import autocast
 
 
 class Trainer:
-    def __init__(self, device, name_list, mode, hidden_dim, n_layers, n_heads, pf_dim, m, dropout_ratio, alpha, epochs=300, class_num=41, lr=1e-4):
+    def __init__(self, device, mode, m, alpha, epochs=300, class_num=41, lr=1e-4):
         self.device = device
         self.epochs = epochs
-        self.name_list = name_list
         self.alpha = alpha
-        self.net = STSASgramMFN(num_classes=class_num, device=self.device, mode=mode, use_arcface=True, m=m, hidden_dim=hidden_dim, n_layers=n_layers, n_heads=n_heads, pf_dim=pf_dim, dropout_ratio=dropout_ratio).to(self.device)
+        self.net = TASTgramMFN(num_classes=class_num, mode=mode, use_arcface=True, m=m).to(self.device)
         self.optimizer = torch.optim.AdamW(self.net.parameters(), lr=lr)
         
         self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max=epochs, eta_min=0.1*float(lr))
@@ -29,7 +28,7 @@ class Trainer:
         num_steps = len(train_loader)
         min_val_loss = 1e10
         
-        for epoch in range(self.epochs):
+        for epoch in tqdm(range(self.epochs), total=self.epochs):
             sum_loss = 0.
             sum_accuracy = 0.
             
@@ -38,19 +37,20 @@ class Trainer:
                 
                 x_wavs, x_mels, labels = x_wavs.to(self.device), x_mels.to(self.device), labels.to(self.device)
                 
-                if self.mode == 'arcface':
-                    logits, _ = self.net(x_wavs, x_mels, labels)
-                    loss = self.criterion(logits, labels)
-                
-                elif self.mode == 'noisy_arcmix':
-                    mixed_x_wavs, mixed_x_mels, y_a, y_b, lam = mixup_data(x_wavs, x_mels, labels, self.device, alpha=self.alpha)
-                    logits, _ = self.net(mixed_x_wavs, mixed_x_mels, labels)
-                    loss = noisy_arcmix_criterion(self.criterion, logits, y_a, y_b, lam)
-                
-                elif self.mode == 'arcmix':
-                    mixed_x_wavs, mixed_x_mels, y_a, y_b, lam = mixup_data(x_wavs, x_mels, labels, self.device, alpha=self.alpha)
-                    logits, logits_shuffled, _ = self.net(mixed_x_wavs, mixed_x_mels, [y_a, y_b])
-                    loss = arcmix_criterion(self.criterion, logits, logits_shuffled, y_a, y_b, lam)
+                with autocast():
+                    if self.mode == 'arcface':
+                        logits, _ = self.net(x_wavs, x_mels, labels)
+                        loss = self.criterion(logits, labels)
+                    
+                    elif self.mode == 'noisy_arcmix':
+                        mixed_x_wavs, mixed_x_mels, y_a, y_b, lam = mixup_data(x_wavs, x_mels, labels, self.device, alpha=self.alpha)
+                        logits, _ = self.net(mixed_x_wavs, mixed_x_mels, labels)
+                        loss = noisy_arcmix_criterion(self.criterion, logits, y_a, y_b, lam)
+                    
+                    elif self.mode == 'arcmix':
+                        mixed_x_wavs, mixed_x_mels, y_a, y_b, lam = mixup_data(x_wavs, x_mels, labels, self.device, alpha=self.alpha)
+                        logits, logits_shuffled, _ = self.net(mixed_x_wavs, mixed_x_mels, [y_a, y_b])
+                        loss = arcmix_criterion(self.criterion, logits, logits_shuffled, y_a, y_b, lam)
                 
                 sum_accuracy += get_accuracy(logits, labels)
                 
@@ -69,10 +69,10 @@ class Trainer:
             if min_val_loss > valid_loss:
                 min_val_loss = valid_loss
                 lr = self.scheduler.get_last_lr()[0]
-                print(f'lr: {lr:.5f} | EPOCH: {epoch} | Train_loss: {avg_loss:.5f} | Train_accuracy: {avg_accuracy:.5f} | Valid_loss: {valid_loss:.5f} | Valid_accuracy: {valid_accuracy:.5f}')
-                torch.save(self.net.state_dict(), save_path)
                 print("model has been saved!")
-                    
+                print(f'lr: {lr:.7f} | EPOCH: {epoch} | Train_loss: {avg_loss:.5f} | Train_accuracy: {avg_accuracy:.5f} | Valid_loss: {valid_loss:.5f} | Valid_accuracy: {valid_accuracy:.5f}')
+                torch.save(self.net.state_dict(), save_path)
+                
     def valid(self, valid_loader):
         self.net.eval()
         
@@ -111,4 +111,3 @@ class Trainer:
         auc = metrics.roc_auc_score(y_true, y_pred)
         #pauc = metrics.roc_auc_score(y_true, y_pred, max_fpr=0.1)
         return auc, sum_accuracy / len(test_loader)
-        

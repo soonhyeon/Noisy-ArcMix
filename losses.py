@@ -1,8 +1,8 @@
+import math 
 import torch 
 import torch.nn as nn 
 import torch.nn.functional as F
 from torch.nn import Parameter
-import math 
 
 
 class ASDLoss(nn.Module):
@@ -19,7 +19,6 @@ class ASDLoss(nn.Module):
         return loss
 
 # ArcFace is referred to https://github.com/ronghuaiyang/arcface-pytorch/blob/master/models/metrics.py
-
 class ArcMarginProduct(nn.Module):
     def __init__(self, in_features=128, out_features=200, s=30.0, m=0.7, sub=1, easy_margin=False):
         super(ArcMarginProduct, self).__init__()

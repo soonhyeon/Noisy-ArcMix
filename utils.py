@@ -39,4 +39,3 @@ def noisy_arcmix_criterion(criterion, pred, y_a, y_b, lam):
 
 def arcmix_criterion(criterion, pred, pred2, y_a, y_b, lam):
     return lam * criterion(pred, y_a) + (1 - lam) * criterion(pred2, y_b)
-

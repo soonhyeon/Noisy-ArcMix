@@ -1,10 +1,9 @@
 """
 modification made on the basis of link:https://github.com/liuyoude/STgram-MFN
 """
+import math
 from torch import nn
 import torch
-import math
-from .transformer import SpecTransformer
 from losses import ArcMarginProduct
 
 
@@ -46,7 +45,6 @@ class ConvBlock(nn.Module):
         self.bn = nn.BatchNorm2d(oup)
         if not linear:
             self.prelu = nn.PReLU(oup)
-            #self.prelu = nn.GELU()
 
     def forward(self, x):
         x = self.conv(x)
@@ -138,29 +136,28 @@ class TgramNet(nn.Module):
         out = self.conv_encoder(out)
         return out
     
-     
-class STSASgramMFN(nn.Module):
-    def __init__(self, num_classes, device, mode,
+
+class TASTgramMFN(nn.Module):
+    def __init__(self, num_classes, mode,
                  c_dim=128,
                  win_len=1024,
                  hop_len=512,
                  bottleneck_setting=Mobilefacenet_bottleneck_setting,
-                 use_arcface=True, m=0.7, s=30, sub=1,
-                 hidden_dim=256, n_layers=6, n_heads=16, pf_dim=64, dropout_ratio=0.0
+                 use_arcface=True, m=0.7, s=30, sub=1
                  ):
-        super(STSASgramMFN, self).__init__()
-        self.arcface = ArcMarginProduct(in_features=128, out_features=num_classes,
+        super().__init__()
+        
+        self.arcface = ArcMarginProduct(in_features=c_dim, out_features=num_classes,
                                         m=m, s=s, sub=sub) if use_arcface else use_arcface
         self.tgramnet = TgramNet(mel_bins=c_dim, win_len=win_len, hop_len=hop_len)
         self.mobilefacenet = MobileFaceNet(num_class=num_classes,
                                            bottleneck_setting=bottleneck_setting)
-        
         self.mode = mode
         
         if mode not in ['arcface', 'arcmix', 'noisy_arcmix']:
             raise ValueError('Choose one of [arcface, arcmix, noisy_arcmix]')
         
-        self.spectral_transformer = SpecTransformer(device=device, input_dim=313, hidden_dim=hidden_dim, n_layers=n_layers, n_heads=n_heads, pf_dim=pf_dim, dropout_ratio=dropout_ratio)
+        self.temporal_attention = Temporal_Attention(feature_dim=c_dim)
         
     def get_tgram(self, x_wav):
         return self.tgramnet(x_wav)
@@ -168,11 +165,9 @@ class STSASgramMFN(nn.Module):
     def forward(self, x_wav, x_mel, label, train=True):
         x_t = self.tgramnet(x_wav).unsqueeze(1)
         
-        x_mel_spec_att, _ = self.spectral_transformer(x_mel.squeeze())
-        
-        x_mel_spec_att = x_mel_spec_att.unsqueeze(1)
-        
-        x = torch.cat((x_t, x_mel, x_mel_spec_att), dim=1)
+        x_mel_temp_att = self.temporal_attention(x_mel).unsqueeze(1)
+       
+        x = torch.cat((x_t, x_mel, x_mel_temp_att), dim=1)
         
         out, feature = self.mobilefacenet(x)
         
@@ -188,3 +183,29 @@ class STSASgramMFN(nn.Module):
         else:
             out = self.arcface(feature, label)
             return out, feature
+        
+        
+class Temporal_Attention(nn.Module):
+  def __init__(self, feature_dim=128):
+    super().__init__()
+    
+    self.feature_dim = feature_dim
+    self.max_pool = nn.AdaptiveMaxPool1d(1)
+    self.avg_pool = nn.AdaptiveAvgPool1d(1)
+    self.sigmoid = nn.Sigmoid()
+    
+  def forward(self, x):
+    # x: (B, 1, 128, 313)
+    x = x.squeeze(1)
+    
+    x = x.transpose(1,2) # (B, 313, 128)
+
+    x1 = self.max_pool(x) # (B, 313, 1)
+    x2 = self.avg_pool(x) # (B, 313, 1)
+    
+    feats = x1 + x2
+    
+    feats = feats.repeat(1, 1, self.feature_dim)
+    
+    refined_feats = self.sigmoid(feats).transpose(1,2) * x.transpose(1,2)
+    return refined_feats
