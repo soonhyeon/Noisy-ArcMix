@@ -1,4 +1,4 @@
-## Noisy-ArcMix / STSASgram-MFN (Pytorch Implementation)
+## Noisy-ArcMix / TASTgram-MFN (Pytorch Implementation)
 By Soonhyeon Choi (csh5956@kaist.ac.kr) at 
 Korea Advanced Institute of Science and Technology (KAIST)
 
