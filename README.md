@@ -8,10 +8,10 @@ Noisy-ArcMix is a training technique that synthesizes anomalous samples by mixup
 <br/>
 This repository contains the implementation used for the results in our paper <Link>.
 
-## STSASgram Architecture
+## TASTgram Architecture
 
 <p align="center">
-  <img src="./STSASgram-MFN_Architecture.png" alt="STSASgram">
+  <img src="./TASTgramMFN" alt="TASTgram">
 </p>
 
 The overall architecture of STSASgram. The temporal feature (Tgram) extracted from the raw wave through a CNN-based TgramNet is concatenated with the log-Mel spectrogram (Sgram) and the global spectral feature (SASgram) obtained from the log-Mel spectrogram through the spectral attention block.
