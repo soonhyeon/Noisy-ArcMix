@@ -3,7 +3,8 @@ By Soonhyeon Choi (csh5956@kaist.ac.kr) at
 Korea Advanced Institute of Science and Technology (KAIST)
 
 ## Introduction
-Noisy-ArcMix is a training technique that synthesizes anomalous samples by mixup and adds a correct or incorrect margin on the target angle to prevent overfitting on normal samples while maintaining intra-class compactness and increasing the angular difference between normal and abnormal features. Additionally, STSASgram architecture plays a critical role in extracting the spectrally attended log-Mel spectrogram (SASgram) through spectral attention as well as the temporal feature (Tgram) and log-Mel spectrogram (Sgram) for the purpose of anomalous sound detection.
+Noisy-ArcMix is a training technique that synthesizes anomalous samples by mixup and adds a correct or incorrect margin on the target angle to prevent overfitting on normal samples while maintaining intra-class compactness and increasing the angular difference between normal and abnormal features. Alongside the conventional log-Mel spectrogram (Sgram) and temporal feature (Tgram), we introduce and utilize the temporal attended log-Mel spectrogram (TAgram) from the temporal attention block. In the temporal attention block, we leverage the max-pooling and average-pooling operations along the spectral axis for extracting the temporal attention map. The values of the temporal attention map are broadcasted along the temporal axis for computing the inter-temporal relationships of the log-Mel spectrogram.
+
 <br/>
 <br/>
 This repository contains the implementation used for the results in our paper <Link>.
