@@ -11,10 +11,10 @@ This repository contains the implementation used for the results in our paper <L
 ## TASTgram Architecture
 
 <p align="center">
-  <img src="./TASTgramMFN" alt="TASTgram">
+  <img src="./TASTgramMFN.png" alt="TASTgram">
 </p>
 
-The overall architecture of STSASgram. The temporal feature (Tgram) extracted from the raw wave through a CNN-based TgramNet is concatenated with the log-Mel spectrogram (Sgram) and the global spectral feature (SASgram) obtained from the log-Mel spectrogram through the spectral attention block.
+The overall architecture of TASTgram. The temporal feature (Tgram) extracted from the raw wave through a CNN-based TgramNet is concatenated with the log-Mel spectrogram (Sgram) and a global temporal feature (TAgram) obtained from the temporal attention block.
 
 
 ## Noisy-ArcMix
