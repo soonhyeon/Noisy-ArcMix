@@ -88,13 +88,13 @@ Our trained model weights file can be accessed in https://drive.google.com/drive
 ## Experimental Results
  | machine Type | AUC(%) | pAUC(%) | mAUC(%) |
  | --------     | :-----:| :----:  | :----:  |
- | Fan          | 97.08  | 94.13   | 91.20   |
- | Pump         | 94.71  | 86.67   | 88.15   |
- | Slider       | 99.45  | 97.12   | 97.85   |
- | Valve        | 99.93  | 99.66   | 99.85   |
- | ToyCar       | 96.37  | 89.72   | 88.54   |
- | ToyConveyor  | 80.16  | 66.71   | 70.84   |
- | __Average__      | __94.74__  | __89.00__   | __89.41__   |
+ | Fan          | 98.32  | 95.34   | 92.67   |
+ | Pump         | 95.44  | 85.99   | 91.17   |
+ | Slider       | 99.53  | 97.50   | 97.96   |
+ | Valve        | 99.95  | 99.74   | 99.89   |
+ | ToyCar       | 96.76  | 90.11   | 88.81   |
+ | ToyConveyor  | 77.90  | 67.15   | 68.18   |
+ | __Average__      | __94.65__  | __89.31__   | __89.78__   |
 
 
 
