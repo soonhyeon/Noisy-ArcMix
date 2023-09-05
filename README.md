@@ -10,7 +10,7 @@ This repository contains the implementation used for the results in our paper <L
 ## TASTgram Architecture
 
 <p align="center">
-  <img src="./TASTgramMFN.png" alt="TASTgram">
+  <img src="./TASTgramMFN.png" alt="TASTgramMFN">
 </p>
 
 The overall architecture of TASTgram. The temporal feature (Tgram) extracted from the raw wave through a CNN-based TgramNet is concatenated with the log-Mel spectrogram (Sgram) and a global temporal feature (TAgram) obtained from the temporal attention block.
@@ -19,7 +19,7 @@ The overall architecture of TASTgram. The temporal feature (Tgram) extracted fro
 ## Noisy-ArcMix
 
 <p align="center">
-  <img src="./Angle_distribution.png" alt="STSASgram">
+  <img src="./Angle_distribution.png" alt="angle_distribution">
 </p>
 Histogram with the distribution of angles between samples and their corresponding centers for the Fan machine type in cases of (a) ArcFace, (b) ArcMix, and (c) Noisy-ArcMix.
 
