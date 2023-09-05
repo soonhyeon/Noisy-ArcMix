@@ -3,7 +3,7 @@ By Soonhyeon Choi (csh5956@kaist.ac.kr) at
 Korea Advanced Institute of Science and Technology (KAIST)
 
 ## Introduction
-Noisy-ArcMix is a training technique that synthesizes anomalous samples by mixup and adds a correct or incorrect margin on the target angle to prevent overfitting on normal samples while maintaining intra-class compactness and increasing the angular difference between normal and abnormal features. Alongside the conventional log-Mel spectrogram (Sgram) and temporal feature (Tgram), we introduce and utilize the temporal attended log-Mel spectrogram (TAgram) from the temporal attention block. In the temporal attention block, we leverage the max-pooling and average-pooling operations along the spectral axis for extracting the temporal attention map.
+Noisy-ArcMix significantly improve the compactness of intra-class distribution through the training with virtually synthesized samples near the normal data distribution. More importantly, we observed that the mingling effect between normal and anomalous samples can be reduced further by Noisy-ArcMix, which gains generalization ability through the use of inconsistent angular margins for the corrupted label prediction. In addition to Noisy-ArcMix, we introduce a new input feature, temporally attended log-Mel spectrogram (TAgram), derived from a temporal attention block. TAgram includes the temporal attention weights broadcasted to spectrogram features, which helps a model to focus on the important temporal regions for capturing crucial features.
 
 <br/>
 <br/>
