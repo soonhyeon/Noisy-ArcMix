@@ -96,4 +96,4 @@ Our trained model weights file can be accessed in https://drive.google.com/drive
 
 
 ## Citation
-If you use this method or this code in your paper, then pleas cite it:
+If you use this method or this code in your paper, then please cite it:
