@@ -10,7 +10,7 @@ This repository contains the implementation used for the results in our paper <L
 ## TASTgram Architecture
 
 <p align="center">
-  <img src="./TASTgramMFN.png" alt="TAST">
+  <img src="./TASTgramMFN.png" alt="TAST" width="200" height="400"/>
 </p>
 
 The overall architecture of TASTgram. The temporal feature (Tgram) extracted from the raw wave through a CNN-based TgramNet is concatenated with the log-Mel spectrogram (Sgram) and a global temporal feature (TAgram) obtained from the temporal attention block.
