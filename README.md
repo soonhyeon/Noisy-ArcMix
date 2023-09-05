@@ -12,19 +12,16 @@ This repository contains the implementation used for the results in our paper <L
 <p align="center">
   <img src="./TASTgramMFN.png" alt="TAST" width="70%" height="70%">
 </p>
-
-The overall architecture of TASTgram. The temporal feature (Tgram) extracted from the raw wave through a CNN-based TgramNet is concatenated with the log-Mel spectrogram (Sgram) and a global temporal feature (TAgram) obtained from the temporal attention block.
-
+Input architecture of TASTgramNet. The temporal feature (Tgram) is concatenated with the log-Mel spectrogram (Sgram) and the temporally attended feature (TAgram) from the temporal attention block.
 
 ## Noisy-ArcMix
 
 <p align="center">
   <img src="./Angle_distribution.png" alt="angle_distribution">
 </p>
-Histogram with the distribution of angles between samples and their corresponding centers for the Fan machine type in cases of (a) ArcFace, (b) ArcMix, and (c) Noisy-ArcMix.
+Distribution of angles between feature embeddings and corresponding learned class centers, for the models trained by (a) Cross-Entropy, (b) ArcFace, (c) ArcMix, and (d) Noisy-ArcMix. The results are derived from all machine types in the test data of DCASE 2020 Challenge Task 2 development dataset.
 
 ## Datasets
-
 [DCASE2020 Task2](https://dcase.community/challenge2020/task-unsupervised-detection-of-anomalous-sounds) Dataset: 
 + [development dataset](https://zenodo.org/record/3678171)
 + [additional training dataset](https://zenodo.org/record/3727685)
