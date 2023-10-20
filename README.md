@@ -81,7 +81,7 @@ python eval.py
 ```
 
 ## Model weights
-Our trained model weights file can be accessed in https://drive.google.com/drive/folders/1tuUS-MKcAy-jFDVVdD5rpy-NU-3Pk46a?hl=ko.
+Our trained model weights file can be accessed at https://drive.google.com/drive/folders/1tuUS-MKcAy-jFDVVdD5rpy-NU-3Pk46a?hl=ko.
 
 ## Experimental Results
  | machine Type | AUC(%) | pAUC(%) | mAUC(%) |
@@ -99,9 +99,11 @@ Our trained model weights file can be accessed in https://drive.google.com/drive
 
 ## Citation
 If you use this method or this code in your paper, then please cite it:
+```
 @article{choi2023noisy,
   title={Noisy-ArcMix: Additive Noisy Angular Margin Loss Combined With Mixup Anomalous Sound Detection},
   author={Choi, Soonhyeon and Choi, Jung-Woo},
   journal={arXiv preprint arXiv:2310.06364},
   year={2023}
 }
+```
