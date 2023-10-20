@@ -7,7 +7,7 @@ Noisy-ArcMix significantly improve the compactness of intra-class distribution t
 
 <br/>
 <br/>
-This repository contains the implementation used for the results in our paper <https://arxiv.org/abs/2310.06364>.
+This repository contains the implementation used for the results in our paper <LINK https://arxiv.org/abs/2310.06364>.
 
 ## TASTgram Architecture
 
