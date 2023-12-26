@@ -63,6 +63,14 @@ Distribution of angles between feature embeddings and corresponding learned clas
 ├── train.py
 ├── trainer.py
 ├── utils.py
+├── requirements.txt
+```
+## Model weights / Environments
+Our trained model weights file  and requirements.txt file can be accessed at https://drive.google.com/drive/folders/1tuUS-MKcAy-jFDVVdD5rpy-NU-3Pk46a?hl=ko.
+
+## Install
+```
+pip install -r requirements.txt
 ```
 
 ## Training
@@ -78,9 +86,6 @@ Use `python eval.py` to evaluate the trained model.
 ```
 python eval.py
 ```
-
-## Model weights / Environments
-Our trained model weights file  and requirements.txt file can be accessed at https://drive.google.com/drive/folders/1tuUS-MKcAy-jFDVVdD5rpy-NU-3Pk46a?hl=ko.
 
 ## Experimental Results
  | machine Type | AUC(%) | pAUC(%) | mAUC(%) |
