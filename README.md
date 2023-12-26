@@ -79,8 +79,8 @@ Use `python eval.py` to evaluate the trained model.
 python eval.py
 ```
 
-## Model weights
-Our trained model weights file can be accessed at https://drive.google.com/drive/folders/1tuUS-MKcAy-jFDVVdD5rpy-NU-3Pk46a?hl=ko.
+## Model weights / Environments
+Our trained model weights file  and requirements.txt file can be accessed at https://drive.google.com/drive/folders/1tuUS-MKcAy-jFDVVdD5rpy-NU-3Pk46a?hl=ko.
 
 ## Experimental Results
  | machine Type | AUC(%) | pAUC(%) | mAUC(%) |
