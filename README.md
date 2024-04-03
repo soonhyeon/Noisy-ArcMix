@@ -6,7 +6,7 @@ Korea Advanced Institute of Science and Technology (KAIST)
 Noisy-ArcMix significantly improve the compactness of intra-class distribution through the training with virtually synthesized samples near the normal data distribution. More importantly, we observed that the mingling effect between normal and anomalous samples can be reduced further by Noisy-ArcMix, which gains generalization ability through the use of inconsistent angular margins for the corrupted label prediction. In addition to Noisy-ArcMix, we introduce a new input feature, temporally attended log-Mel spectrogram (TAgram), derived from a temporal attention block. TAgram includes the temporal attention weights broadcasted to spectrogram features, which helps a model to focus on the important temporal regions for capturing crucial features.
 
 <br/>
-This repository contains the implementation used for the results in our paper (https://arxiv.org/abs/2310.06364).
+This repository contains the implementation used for the results in our paper (https://ieeexplore.ieee.org/abstract/document/10447764).
 
 ## TASTgram Architecture
 
@@ -104,10 +104,12 @@ python eval.py
 ## Citation
 If you use this method or this code in your paper, then please cite it:
 ```
-@article{choi2023noisy,
-  title={Noisy-ArcMix: Additive Noisy Angular Margin Loss Combined With Mixup Anomalous Sound Detection},
+@inproceedings{choi2024noisy,
+  title={Noisy-Arcmix: Additive Noisy Angular Margin Loss Combined With Mixup For Anomalous Sound Detection},
   author={Choi, Soonhyeon and Choi, Jung-Woo},
-  journal={arXiv preprint arXiv:2310.06364},
-  year={2023}
+  booktitle={ICASSP 2024-2024 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  pages={516--520},
+  year={2024},
+  organization={IEEE}
 }
 ```
